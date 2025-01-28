@@ -1,0 +1,5 @@
+# List of dependencies for the project
+# Actual package (pylearning) has its requirements in setup.py
+
+setuptools      # enables package installation using setup.py
+pytest==7.4.1   # enables test run
