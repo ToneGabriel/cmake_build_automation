@@ -12,11 +12,15 @@ py -m pip install --upgrade pip
 :: Set the virtual environment directory name
 set VENV_DIR=.venv
 
-:: Check if the virtual environment already exists
-echo Creating virtual environment...
-if not exist %VENV_DIR% (
-    py -m venv %VENV_DIR%
+:: Check if the virtual environment already exists and remove it
+if exist %VENV_DIR% (
+    echo Removing old virtual environment...
+    rmdir %VENV_DIR% /s /q
 )
+
+:: Create a new virtual environment
+echo Creating new virtual environment...
+py -m venv %VENV_DIR%
 
 :: Activate the virtual environment
 call %VENV_DIR%\Scripts\activate
@@ -25,12 +29,8 @@ call %VENV_DIR%\Scripts\activate
 echo Upgrading pip...
 py -m pip install --upgrade pip
 
-:: Install Req packages
-echo Installing requirements...
-py -m pip install -r requirements.txt
-
-:: Install MY package in normal mode
-py -m pip install ./buildautomation
+:: Install MY package in normal mode (without -e)
+py -m pip install -e ./build_automation_app
 
 :: Deactivate the virtual environment
 call %VENV_DIR%\Scripts\deactivate
