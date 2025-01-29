@@ -14,7 +14,7 @@ call %VENV_DIR%\Scripts\activate
 
 :: Run the Python script
 echo Running CMake Build...
-py ./build_automation_app
+py ./build_automation_app ./data.json
 
 :: Deactivate the virtual environment
 call %VENV_DIR%\Scripts\deactivate
