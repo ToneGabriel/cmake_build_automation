@@ -1,0 +1,21 @@
+{
+    "project_path": "",
+    "project_name": "",
+    "project_verison":
+                    {
+                        "major": 0,
+                        "minor": 0,
+                        "patch": 0
+                    },
+
+    "c_standard": 17,
+    "c_standard_required": true,
+    "c_extensions": false,
+
+    "cxx_standard": 20,
+    "cxx_standard_required": true,
+    "cxx_extensions": false,
+    
+    "app_directory": "app",
+    "code_directory": "code"
+}

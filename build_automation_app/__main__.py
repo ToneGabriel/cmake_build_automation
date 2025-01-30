@@ -1,26 +1,23 @@
-import os
-import subprocess
-import argparse
-import platform
-import json
+from argparse import ArgumentParser
 
-from modules.cmake_builder import *
 from modules.cmake_generator import *
+from modules.cmake_builder import *
+
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Parse a JSON file")
-    parser.add_argument("json_file", help="Path to the JSON file")
+    parser = ArgumentParser()
+    parser.add_argument("--action", type=str, required=True, help="Specify the action: 'g' to generate or 'b' to build.")
+    parser.add_argument("--json", type=str, required=True, help="Path to the JSON file")
     args = parser.parse_args()
 
-    try:
-        with open(args.json_file, "r") as file:
-            data = json.load(file)
-            build_cmake_project(data["project_path"])
-    except FileNotFoundError:
-        print(f"Error: File '{args.json_file}' not found.")
-    except json.JSONDecodeError:
-        print(f"Error: File '{args.json_file}' is not a valid JSON file.")
+    if args.action == 'g':
+        pass
+    elif args.action == 'b':
+        build_cmake_project(args.json)
+    else:
+        print("Invalid action! Please use 'g' to generate or 'b' to build.")
+
 
 
 
