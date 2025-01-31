@@ -1,9 +1,18 @@
 import os
 import subprocess
 import sys
-import json
+
+from json_checker import *
 
 __all__ = ["build_cmake_project"]
+
+
+_EXPECTED_BUILD_DATA_JSON_STRUCTURE = {
+    "project_path": str,
+    "cmake_generator": str,
+    "c_compiler_path": str,
+    "cxx_compiler_path": str
+}
 
 
 def _run_command(command: str) -> None:
@@ -15,29 +24,21 @@ def _run_command(command: str) -> None:
         print(f"Error occurred: {e}")
         sys.exit(1)
 
-def build_cmake_project(json_build_data_path: str = None) -> None:
+
+def build_cmake_project(json_data_dict: dict) -> None:
     """Configure and build a CMake project."""
 
-    json_data = None
-
-    try:
-        with open(json_build_data_path, "r") as file:
-            json_data = json.load(file)
-    except FileNotFoundError:
-        print(f"Error: File '{json_build_data_path}' not found.")
-    except json.JSONDecodeError:
-        print(f"Error: File '{json_build_data_path}' is not a valid JSON file.")
-
-    if not json_data:
+    if not validate_json_data_structure(json_data_dict, _EXPECTED_BUILD_DATA_JSON_STRUCTURE):
         return
-    else:        
-        project_path = json_data["project_path"]
-        cmake_generator = json_data["cmake_generator"]
-        c_compiler_path = json_data["c_compiler_path"]
-        cxx_compiler_path = json_data["cxx_compiler_path"]
+    else:   # data OK
+        project_path = json_data_dict["project_path"]
+        cmake_generator = json_data_dict["cmake_generator"]
+        c_compiler_path = json_data_dict["c_compiler_path"]
+        cxx_compiler_path = json_data_dict["cxx_compiler_path"]
 
         if not os.path.exists(project_path):
             print("Project path does not exist.")
+            return
         else:
             build_path = project_path + "/build"
 

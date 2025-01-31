@@ -1,4 +1,11 @@
 {
+    "cmake_minimum_required_version":
+                                    {
+                                        "major": 0,
+                                        "minor": 0,
+                                        "patch": 0
+                                    },
+
     "project_path": "",
     "project_name": "",
     "project_verison":
