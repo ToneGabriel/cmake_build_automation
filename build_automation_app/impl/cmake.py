@@ -56,10 +56,12 @@ def _run_command(command: str) -> None:
         sys.exit(1)
 
 
-def build_project(json_data_dict: dict) -> None:
+def build_project(json_path: str) -> None:
     """Configure and build a CMake project."""
 
-    if not json_checker.validate_json_data_structure(json_data_dict, _EXPECTED_BUILD_JSON_STRUCTURE):
+    json_data_dict = json_checker.get_json_data(json_path, _EXPECTED_BUILD_JSON_STRUCTURE)
+
+    if not json_data_dict:
         return
     else:   # data OK
         project_path = json_data_dict["project_path"]

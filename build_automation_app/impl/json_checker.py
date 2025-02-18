@@ -1,19 +1,31 @@
 import json
 
 
-__all__ = ["validate_json_data_structure"]
+__all__ = ["validate_json_data_structure", "get_json_data"]
 
 
-def check_json_file(json_data_path: str, expected_structure:dict) -> bool:
+class InvalidJsonStructure(Exception):
+    """Exception raised for invalid json file structure"""
+
+    def __init__(self: object, message: str):
+        super().__init__(message)
+
+def get_json_data(json_data_path: str, expected_structure:dict) -> dict:
     try:
         with open(json_data_path, "r") as file:
             json_data = json.load(file)
-            return validate_json_data_structure(json_data, expected_structure)
+            if not validate_json_data_structure(json_data, expected_structure):
+                return
+            else:
+                return json_data
     except FileNotFoundError:
         print(f"Error: File '{json_data_path}' not found.")
         return
     except json.JSONDecodeError:
         print(f"Error: File '{json_data_path}' is not a valid JSON file.")
+        return
+    except InvalidJsonStructure as e:
+        print(e)
         return
 
 def validate_json_data_structure(json_data:dict, expected_structure:dict, path="") -> bool:
