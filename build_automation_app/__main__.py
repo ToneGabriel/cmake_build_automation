@@ -1,7 +1,6 @@
 import argparse
 
-from modules import cmake_generator
-from modules import cmake_builder
+import impl
 
 
 def main():
@@ -13,11 +12,9 @@ def main():
     
     # Call function based on choice and pass the corresponding json data
     if args.action == 'g':
-        pass
-        # generate_cmake_files_in_project(json_data)
+        impl.generate_cmakelists(args.json)
     elif args.action == 'b':
-        pass
-        # build_cmake_project(json_data)
+        impl.build_project(args.json)
     else:
         print("Invalid action! Please use 'g' to generate or 'b' to build.")
 
